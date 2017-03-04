@@ -50,9 +50,15 @@ class App extends Component {
             );
         }
         return (
+            <View
+                style={{
+                    flex: 1
+                }}
+            >
             <WebView 
                 source={{ uri: 'https://www.info.roma.it' }}
             />
+            </View>
         );
     }
 }
