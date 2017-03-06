@@ -10,9 +10,7 @@ class App extends Component {
     componentDidMount() {
         //Add a listener to manage the internet connection
         NetInfo.addEventListener('change', this.handleConnectionInfoChange); 
-        NetInfo.fetch().done((myConnectionInfo) => { 
-            this.setState({ connectionInfo: myConnectionInfo }); 
-        });
+        this.checkTheConnection();
     }
 
     componentWillUnmount() {
@@ -31,22 +29,29 @@ class App extends Component {
         });
     }
 
+    renderError() {
+        return (
+            <View 
+                style={{
+                    flex: 1,
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    flexDirection: 'column'
+                }}
+            ><Text>Connessione Non Disponibile</Text>
+            <TouchableHighlight 
+                onPress={this.checkTheConnection.bind(this)}
+            >
+                <Text>Retry</Text>
+            </TouchableHighlight>
+            </View>
+        );
+    }
+
     render() {
         if (this.state.connectionInfo === 'none') {
             return (
-                <View 
-                    style={{
-                        flex: 1,
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        flexDirection: 'column' }}
-                ><Text>Connessione Non Disponibile</Text>
-                <TouchableHighlight 
-                    onPress={this.checkTheConnection.bind(this)}
-                >
-                    <Text>Retry</Text>
-                </TouchableHighlight>
-                </View>
+               this.renderError()
             );
         }
         return (
@@ -55,7 +60,9 @@ class App extends Component {
                     flex: 1
                 }}
             >
-            <WebView 
+            <WebView
+                startInLoadingState
+                renderError={this.renderError}
                 source={{ uri: 'https://www.info.roma.it' }}
             />
             </View>
