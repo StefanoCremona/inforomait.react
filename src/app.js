@@ -51,17 +51,36 @@ class App extends Component {
                     flex: 1,
                     alignItems: 'center', 
                     justifyContent: 'center',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    backgroundColor: '#000000'
                 }}
-            ><Text>Connessione Non Disponibile</Text>
-            <TouchableHighlight 
+            ><Text
+                style={{
+                    color: '#ffffff',
+                    marginBottom: 20
+                }}
+            >Connessione Non Disponibile</Text>
+            <TouchableHighlight
+                style={{
+                    borderWidth: 1,
+                    borderColor: '#ffffff',
+                    borderRadius: 5,
+                    width: 60,
+                    height: 30,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
                 onPress={() => {
                     console.log('Press Button');
                     this.forceCheckTheConnectionAfterError();
                     }
                 }
             >
-                <Text>Retry</Text>
+                <Text
+                    style={{
+                        color: '#ffffff'
+                    }}
+                >Retry</Text>
             </TouchableHighlight>
             </View>
         );
