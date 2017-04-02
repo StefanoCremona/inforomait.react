@@ -3,8 +3,16 @@ import { View, Text, WebView, NetInfo, TouchableHighlight } from 'react-native';
 
 class App extends Component {
 
+    constructor() {
+        super();
+        this.forceCheckTheConnectionAfterError = this.forceCheckTheConnectionAfterError.bind(this);
+        this.checkTheConnection = this.checkTheConnection.bind(this);
+        this.renderError = this.renderError.bind(this);
+    }
+
     state = {
-        connectionInfo: null
+        connectionInfo: null,
+        error: false
     }
 
     componentDidMount() {
@@ -24,9 +32,16 @@ class App extends Component {
     };
 
     checkTheConnection() {
-        NetInfo.fetch().done((myConnectionInfo) => { 
+        NetInfo.fetch().done((myConnectionInfo) => {
+            console.log(`CheckTheConnection: ${myConnectionInfo}`);
             this.setState({ connectionInfo: myConnectionInfo }); 
         });
+    }
+
+    forceCheckTheConnectionAfterError() {
+        console.log('forceCheckTheConnection');
+        this.setState({ connectionInfo: 'NONE' });
+        this.checkTheConnection();
     }
 
     renderError() {
@@ -40,7 +55,11 @@ class App extends Component {
                 }}
             ><Text>Connessione Non Disponibile</Text>
             <TouchableHighlight 
-                onPress={this.checkTheConnection.bind(this)}
+                onPress={() => {
+                    console.log('Press Button');
+                    this.forceCheckTheConnectionAfterError();
+                    }
+                }
             >
                 <Text>Retry</Text>
             </TouchableHighlight>
@@ -48,12 +67,15 @@ class App extends Component {
         );
     }
 
-    render() {
-        if (this.state.connectionInfo === 'none') {
+    render() {    
+        if (this.state.connectionInfo !== null && 
+            this.state.connectionInfo.toLowerCase() === 'none') {
             return (
-               this.renderError()
+                this.renderError()
             );
         }
+    
+        
         return (
             <View
                 style={{
