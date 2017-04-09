@@ -54,3 +54,5 @@ fastlane/Preview.html
 fastlane/screenshots
 android/app/inforomait.jks
 nohup
+android/app/app-release.apk
+android/app/src/main/assets/

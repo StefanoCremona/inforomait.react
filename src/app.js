@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, WebView, NetInfo, TouchableHighlight } from 'react-native';
+import { View, Text, WebView, NetInfo, TouchableHighlight, PermissionsAndroid } from 'react-native';
 
 class App extends Component {
 
@@ -15,6 +15,11 @@ class App extends Component {
         error: false
     }
 
+    componentWillMount() {
+        this.checkLocationPermission();
+    }
+
+
     componentDidMount() {
         //Add a listener to manage the internet connection
         NetInfo.addEventListener('change', this.handleConnectionInfoChange); 
@@ -26,6 +31,40 @@ class App extends Component {
         NetInfo.removeEventListener('change', this.handleConnectionInfoChange); 
     }
     
+    async checkLocationPermission() {
+        try { 
+            const granted = await 
+            PermissionsAndroid.request( 
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, 
+                { 
+                    title: 'InfoRomaIt Location Permission', 
+                    message: 'InfoRomaIt needs access to your gps so you can offer you a better service.'
+                }
+            );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) { 
+                    console.log('You can use the camera');
+                    this.setTheLocation();
+                } else { 
+                    console.log('Camera permission denied');
+                }
+            } 
+        catch (err) {
+            console.warn(err);
+        }
+    }
+
+    setTheLocation() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => { 
+                const initialPosition = JSON.stringify(position);
+                console.log(`Initial position: ${initialPosition}`); 
+                this.setState({ initialPosition }); 
+            }, 
+            (error) => console.log(JSON.stringify(error)), 
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
+    }
+
     handleConnectionInfoChange = (myConnectionInfo) => { 
         this.setState({ connectionInfo: myConnectionInfo });
         console.log(`Connection status is changed. Now is: ${myConnectionInfo}`);

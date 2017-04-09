@@ -1,4 +1,4 @@
-package com.inforomait;
+package it.roma.info.inforomait;
 
 import android.app.Application;
 import android.util.Log;
@@ -9,6 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import it.roma.info.inforomait.BuildConfig;
 
 import java.util.Arrays;
 import java.util.List;

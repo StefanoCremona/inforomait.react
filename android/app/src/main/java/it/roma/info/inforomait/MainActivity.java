@@ -1,4 +1,4 @@
-package com.inforomait;
+package it.roma.info.inforomait;
 
 import com.facebook.react.ReactActivity;
 
