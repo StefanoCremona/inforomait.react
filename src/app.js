@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, WebView, NetInfo, TouchableHighlight, PermissionsAndroid } from 'react-native';
+import { 
+    View, 
+    Text, 
+    WebView, 
+    NetInfo, 
+    TouchableHighlight, 
+    PermissionsAndroid,
+    StatusBar
+} from 'react-native';
 
 class App extends Component {
 
@@ -140,6 +148,10 @@ class App extends Component {
                     flex: 1
                 }}
             >
+            <StatusBar 
+                backgroundColor="#131313" 
+                barStyle="default" 
+            />
             <WebView
                 startInLoadingState
                 renderError={this.renderError}
