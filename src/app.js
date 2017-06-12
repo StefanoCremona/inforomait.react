@@ -6,7 +6,8 @@ import {
     NetInfo, 
     TouchableHighlight, 
     PermissionsAndroid,
-    StatusBar
+    StatusBar,
+    Linking
 } from 'react-native';
 
 class App extends Component {
@@ -133,6 +134,8 @@ class App extends Component {
         );
     }
 
+    webview = null;
+
     render() {    
         if (this.state.connectionInfo !== null && 
             this.state.connectionInfo.toLowerCase() === 'none') {
@@ -140,8 +143,7 @@ class App extends Component {
                 this.renderError()
             );
         }
-    
-        
+
         return (
             <View
                 style={{
@@ -153,9 +155,17 @@ class App extends Component {
                 barStyle="default" 
             />
             <WebView
+                ref={(ref) => { this.webview = ref; }}
                 startInLoadingState
                 renderError={this.renderError}
                 source={{ uri: 'https://www.info.roma.it' }}
+                onNavigationStateChange={(event) => {
+                    //console.log(event.url);
+                    if (!String(event.url).includes('info.roma.it')) {
+                        this.webview.stopLoading();
+                        Linking.openURL(event.url);
+                    }
+                }}
             />
             </View>
         );
